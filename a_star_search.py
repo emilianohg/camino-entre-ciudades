@@ -61,6 +61,7 @@ city_end = 'Bucharest'
 
 start = cities.get_number_by_city(city_start)
 goal = cities.get_number_by_city(city_end)
+
 distances = [i for i in cities_distance.distance_to_bucharest.values()]
 
 print('El programa inicia en ' + city_start + '(' + str(start) + ')')

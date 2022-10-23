@@ -2,10 +2,22 @@ import pygame
 import sys
 import game
 import cities
+import cities_distance
 
 def goal_test(path: list):
   current_node = path[-1]
   return current_node == goal
+
+def evaluate(paths):
+  options = []
+  min_city = None
+  min_path = None
+  for path in paths:
+    next_city = path[-1]
+    if min_city == None or distances[next_city] < distances[min_city]:
+      min_city = next_city
+      min_path = path
+  return min_path
 
 def expand(path: list):
     current_node = path[-1]
@@ -26,33 +38,34 @@ def expand(path: list):
 
     return paths
 
-def breadth_first_search(frontier: list):
+def greedy_search(frontier: list):
 
-  if (len(frontier) == 0):
-    return None
+    if (len(frontier) == 0):
+        return None
 
-  current = frontier.pop(0)
+    current = frontier.pop(0)
 
-  game.draw(visited=visited, path=current)
+    game.draw(path=current, visited=visited)
 
-  if goal_test(current):
-    return current
+    if goal_test(current):
+        return current
 
-  off_spring = expand(current)
+    off_spring = expand(current)
+    path = evaluate(off_spring)
 
-  for node in off_spring:
-      frontier.append(node)
+    frontier.insert(0, path)
 
-  return breadth_first_search(frontier)
+    return greedy_search(frontier)
 
 
-city_start = 'Arad'
+city_start = 'Timisoara'
 city_end = 'Bucharest'
 
 start = cities.get_number_by_city(city_start)
 goal = cities.get_number_by_city(city_end)
 
 visited = [0] * len(cities.cities_list)
+distances = [i for i in cities_distance.distance_to_bucharest.values()]
 
 print('El programa inicia en ' + city_start + '(' + str(start) + ')')
 print('Busca llegar a ' + city_end + '(' + str(goal) + ')')
@@ -60,8 +73,7 @@ print('Busca llegar a ' + city_end + '(' + str(goal) + ')')
 graph = cities.get_resume_matrix()
 
 frontier = [[start]]
-
-path = breadth_first_search(frontier)
+path = greedy_search(frontier)
 
 if (path == None):
     print('No existe camino de ' + city_start + ' a ' + city_end)
