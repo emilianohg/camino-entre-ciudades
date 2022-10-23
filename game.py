@@ -19,6 +19,11 @@ COLOR_BLACK = (0, 0, 0)
 COLOR_GREEN = (100, 255, 100)
 COLOR_RED = (255, 100, 100)
 
+def draw_city(city, color):
+    pygame.draw.rect(screen, (color[0]-50, color[1]-50, color[2]-50), city.get_rect())
+    pygame.draw.rect(screen, color, city.get_inner_rect())
+
+
 def draw_text(text, x, y):
     text = font.render(text, True, COLOR_BLACK)
     textRect = text.get_rect()
@@ -65,14 +70,6 @@ def draw(**kwargs):
                     cities.coordinates[cities.cities_list[position]]
                 )
 
-    for city_visited in visited:
-        pygame.draw.rect(screen, COLOR_RED, city_visited.get_rect())
-        pygame.draw.rect(screen, COLOR_RED, city_visited.get_inner_rect())
-
-    for city in current_path:
-        pygame.draw.rect(screen, COLOR_GREEN, city.get_rect())
-        pygame.draw.rect(screen, COLOR_GREEN, city.get_inner_rect())
-
     for pos, city in enumerate(current_path):
         if (pos == 0):
             continue
@@ -87,8 +84,14 @@ def draw(**kwargs):
             3
         )
 
+    for city_visited in visited:
+        draw_city(city_visited, COLOR_RED)
+
+    for city in current_path:
+        draw_city(city, COLOR_GREEN)
+
 
     pygame.display.flip()
-    clock.tick(60)
+    pygame.time.wait(500)
 
 

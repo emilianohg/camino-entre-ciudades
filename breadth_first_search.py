@@ -60,21 +60,19 @@ graph = cities.get_resume_matrix()
 
 frontier = [[start]]
 
-if __name__ == '__main__':
+path = breadth_first_search(frontier)
 
-    path = breadth_first_search(frontier)
+if (path == None):
+    print('No existe camino de ' + city_start + ' a ' + city_end)
+else:
+    print('Camino encontrado: ' + str(path))
+    print('Camino encontrado: ' + str(cities.get_path_cities(path)))
 
-    if (path == None):
-        print('No existe camino de ' + city_start + ' a ' + city_end)
-    else:
-        print('Camino encontrado: ' + str(path))
-        print('Camino encontrado: ' + str(cities.get_path_cities(path)))
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit(0)
 
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit(0)
+    game.draw(visited=visited, path=path)
 
-        game.draw(visited=visited, path=path)
-
-    pygame.quit()
+pygame.quit()
