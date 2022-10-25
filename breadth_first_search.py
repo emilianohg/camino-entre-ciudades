@@ -28,6 +28,8 @@ def expand(path: list):
 
 def breadth_first_search(frontier: list):
 
+  print(frontier)
+
   if (len(frontier) == 0):
     return None
 
@@ -41,7 +43,7 @@ def breadth_first_search(frontier: list):
   off_spring = expand(current)
 
   for node in off_spring:
-      frontier.append(node)
+      frontier.append(node) # Agrega al final
 
   return breadth_first_search(frontier)
 

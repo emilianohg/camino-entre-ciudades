@@ -9,7 +9,6 @@ def goal_test(path: list):
   return current_node == goal
 
 def evaluate(paths):
-  options = []
   min_city = None
   min_path = None
   for path in paths:
@@ -58,7 +57,7 @@ def greedy_search(frontier: list):
     return greedy_search(frontier)
 
 
-city_start = 'Timisoara'
+city_start = 'Neamt'
 city_end = 'Bucharest'
 
 start = cities.get_number_by_city(city_start)

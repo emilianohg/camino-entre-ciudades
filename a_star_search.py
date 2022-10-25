@@ -16,6 +16,11 @@ def goal_test(path: Path):
   current_city = path.value[-1][0]
   return current_city == goal
 
+def distancia_recorrida(path):
+    return sum(j for i, j in path)
+
+def heuristica(child):
+    return distances[child[0]]
 
 def expand(path: Path):
     current_city = path.value[-1][0]
@@ -29,10 +34,12 @@ def expand(path: Path):
         next_path = list(path_list)
         next_path.append(child)
 
-        distancia_recorrida = sum(j for i, j in path_list)
-        distance_next_city = child[1]
-
-        paths.append(Path(next_path, distancia_recorrida + distance_next_city + distances[child[0]]))
+        paths.append(
+            Path(
+                next_path,
+                distancia_recorrida(next_path) + heuristica(child)
+            )
+        )
 
     return paths
 
@@ -49,6 +56,7 @@ def a_star_search(frontier: list):
     return current
 
   off_spring = expand(current)
+
   for node in off_spring:
       frontier.insert(0, node)
 
@@ -56,7 +64,7 @@ def a_star_search(frontier: list):
 
   return a_star_search(frontier)
 
-city_start = 'Zerind'
+city_start = 'Arad'
 city_end = 'Bucharest'
 
 start = cities.get_number_by_city(city_start)
@@ -69,7 +77,7 @@ print('Busca llegar a ' + city_end + '(' + str(goal) + ')')
 
 graph = cities_distance.get_resume_matrix()
 
-frontier = [ Path([(start, 0)], 0) ]
+frontier = [ Path([(start, 0)], cities_distance.distance_to_bucharest[city_start]) ]
 
 path = a_star_search(frontier)
 path_finded = [i for i, j in path.value]

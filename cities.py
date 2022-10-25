@@ -92,7 +92,6 @@ def get_path_cities(path):
   return list(map(lambda pos: cities_list[pos], path))
 
 def get_resume_matrix():
-  total_cities = len(cities_list)
   matrix = []
   for index, city_name in enumerate(cities_list):
     matrix.append([])
